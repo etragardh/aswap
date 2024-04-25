@@ -16,6 +16,7 @@ t3ster
 
 while
 `echo "tester" | aswap 2e3`
+
 outputs:
 ```
 tester
