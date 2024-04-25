@@ -80,5 +80,5 @@ l0ve <- 0 for 0
 l0v3 <- combination of the 2 previuous swaps
 ```
 
-> [caution]
+>[!caution]
 > Note that `l0v3` is not present in hashcat or john. That would need more complex rules.
