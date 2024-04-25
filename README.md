@@ -46,10 +46,12 @@ Can you get `kitties` to output `k!tties` in hashcat or john?
 
 **Complexity = cracking time**
 ```
-echo 'c' >> test.rule
 echo 'si!' >> test.rule
+echo 'si1' >> test.rule
 echo 'so0' >> test.rule
 echo 'sa@' >> test.rule
+echo 'sa4' >> test.rule
 echo 'se3' >> test.rule
+echo 'st7' >> test.rule
 echo 'love' | hashcat -a 0 -r test.rule --stdout
 ```
