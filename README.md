@@ -2,6 +2,10 @@
 Advanced swapper<br />
 For advanced rule based password cracking when swapping characters is a must.<br />
 
+>[!CAUTION]
+> Be careful when using aswap.<br />
+> You could accidently gain access to some one elses password ;-) 
+
 ## Syntax
 aswap takes input from stdin.<br />
 `cat dict.txt | aswap <int:levels deep><void:character to swap><void:replacement>`<br />
@@ -25,9 +29,6 @@ t3st3r
 ```
 
 
->[!CAUTION]
-> Be careful when using aswap.<br />
-> You could accidently gain access to some one elses password ;-) 
 
 ## Usage
 
