@@ -76,9 +76,9 @@ echo "love" | aswap 2i! 2i1 2o0 2a@ 2a4 2e3 2t7
 ```
 Output:
 ```
-love <- original (the real original)
+love <- original
 lov3 <- e for 3
-l0ve <- 0 for 0
+l0ve <- o for 0
 l0v3 <- combination of the 2 previuous swaps
 ```
 
