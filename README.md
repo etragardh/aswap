@@ -1,5 +1,27 @@
 # aswap
-Advanced swapper - password cracking
+Advanced swapper<br />
+For advanced rule based password cracking when swapping characters is a must.<br />
+
+## Syntax
+aswap takes input from stdin.
+`cat dict.txt | aswap <int:levels deep><void:character to swap><void:replacement>`
+ie
+`echo "tester" | aswap 1e3`
+outputs:
+```
+tester
+t3ster
+```
+
+while
+`echo "tester" | aswap 2e3`
+outputs:
+```
+tester
+t3ster
+t3st3r
+```
+
 
 >[!CAUTION]
 > Be careful when using aswap.<br />
