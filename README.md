@@ -40,5 +40,6 @@ Outputs only:
 `k!tt!3s`
 
 **impossible combination in hashcat and john**
+
 Try to swap only the first occurance of "i".
 Can you get `kitties` to output `k!tties` ?
