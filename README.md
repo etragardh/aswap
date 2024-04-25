@@ -33,13 +33,23 @@ k!tt!3s
 ```
 
 ## aswap vs Hashcat and John The Ripper
+
+**impossible combination in hashcat and john**
 ```
 echo "kitties" | hashcat -a 0 -j 'si! se3' --stdout
 ```
 Outputs only:
 `k!tt!3s`
 
-**impossible combination in hashcat and john**
+Try to swap only the first occurance of "i".<br />
+Can you get `kitties` to output `k!tties` in hashcat or john?
 
-Try to swap only the first occurance of "i".
-Can you get `kitties` to output `k!tties` ?
+**Complexity = cracking time**
+```
+echo 'c' > test.rule
+echo 'si!' > test.rule
+echo 'so0' > test.rule
+echo 'sa@' > test.rule
+echo 'se3' > test.rule
+echo 'love' | hashcat -a 0 -r test.rule --stdout
+```
