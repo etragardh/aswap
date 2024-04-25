@@ -70,6 +70,7 @@ Try to swap only the first occurance of "i".<br />
 Can you get `kitties` to output `k!tties` in hashcat or john?
 
 **Complexity = cracking time**
+
 Try this:
 ```
 echo ':' >> test.rule
