@@ -109,4 +109,4 @@ l0v3 <- combination of the 2 previuous swaps
 ```
 
 >[!caution]
-> Note that `l0v3` is not present in hashcat or john. That would need rules and add _a lot_ more complexity to the cracking process.
+> Note that `l0v3` is not present in hashcat or john. That would need _a lot_ more rules and add _a lot_ more complexity to the cracking process.
