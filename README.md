@@ -32,7 +32,7 @@ k!tt!es
 k!tt!3s
 ```
 
-## Compared to hashcat or John The Ripper
+## aswap vs Hashcat and John The Ripper
 ```
 echo "kitties" | hashcat -a 0 -j 'si! se3' --stdout
 ```
