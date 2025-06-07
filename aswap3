@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+import sys
+import multiprocessing as mp
+
+def swap(word, index, char):
+  return word[:index] + char + word[index+1:]
+
+def apply_rule(word, levels, find, replace):
+  results = set([word])
+  deep = 0
+
+  for i, c in enumerate(word):
+    if c != find:
+      continue
+    new_results = set()
+    for w in results:
+      new_results.add(swap(w, i, replace))
+    results |= new_results
+    deep += 1
+    if deep >= levels:
+      break
+
+  return results
+
+def apply_all_rules(word, rules):
+  words = set([word])
+  for level, find, replace in rules:
+    new_words = set()
+    for w in words:
+      new_words |= apply_rule(w, level, find, replace)
+    words = new_words
+  return list(words)
+
+def worker(line_and_rules):
+  line, rules = line_and_rules
+  return apply_all_rules(line.strip(), rules)
+
+def parse_rules(argv):
+  rules = []
+  for arg in argv[1:]:
+    if len(arg) != 3:
+      raise ValueError(f"Invalid rule: {arg}")
+    rules.append((int(arg[0]), arg[1], arg[2]))
+  return rules
+
+def main():
+  if len(sys.argv) < 2:
+    print("Usage: echo 'word' | aswap 2a@ 1e3")
+    sys.exit(1)
+
+  rules = parse_rules(sys.argv)
+  pool = mp.Pool(mp.cpu_count())
+
+  jobs = ((line, rules) for line in sys.stdin)
+
+  try:
+    for result in pool.imap(worker, jobs, chunksize=100):
+      for word in result:
+        print(word)
+  except KeyboardInterrupt:
+    pool.terminate()
+  finally:
+    pool.close()
+    pool.join()
+
+if __name__ == '__main__':
+  main()
+
