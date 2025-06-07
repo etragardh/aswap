@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import sys
+
+def swap(word, index, char):
+  return word[:index] + char + word[index+1:]
+
+def apply_rule(word, levels, find, replace):
+  results = set([word])
+  deep = 0
+
+  for i, c in enumerate(word):
+    if c != find:
+      continue
+    new_results = set()
+    for w in results:
+      new_results.add(swap(w, i, replace))
+    results |= new_results
+    deep += 1
+    if deep >= levels:
+      break
+
+  return results
+
+# Parse rules: each like "2o0"
+rules = []
+for i, argv in enumerate(sys.argv):
+  if i == 0:
+    continue
+  if len(argv) != 3:
+    print(f"Invalid rule: {argv}, must be 3 characters like 2o0")
+    sys.exit(1)
+  rules.append((int(argv[0]), argv[1], argv[2]))
+
+# Process stdin one line at a time
+for line in sys.stdin:
+  words = set([line.strip()])
+  for level, find, replace in rules:
+    new_words = set()
+    for word in words:
+      new_words |= apply_rule(word, level, find, replace)
+    words = new_words
+  print(*words, sep='\n')
+
