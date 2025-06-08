@@ -32,13 +32,30 @@ t3st3r
 
 ## Usage
 
-**Installation**
+**Installation (original in python)**
 
 ```
 gh repo clone etragardh/aswap
 chmod +x aswap/aswap
 sudo ln -s ${PWD}/aswap/aswap /usr/local/bin
 ```
+
+**Installation (optimized in c++, multicore)**
+
+This will delete the aswap python version and compile the aswap optimized for your machine.<br />
+`aswap_cpp` is a pre compiled binary optimized for my Macbook PRO M2 Ultra.<br />
+You should compile aswap.cpp your self.
+<br />
+
+```
+gh repo clone etragardh/aswap
+cd aswap
+rm aswap
+g++ -std=c++17 -O3 -march=native -o aswap aswap.cpp -pthread
+chmod +x aswap
+sudo ln -s ${PWD}/aswap /usr/local/bin
+```
+If you pipe the C++ version to hashcat it will run on the available CPU at the same time hashcat runs on your GPU. This way Hashcat can start cracking before aswap finnishes swapping.
 
 **Test it out**
 ```
