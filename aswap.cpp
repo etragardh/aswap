@@ -6,6 +6,7 @@
 #include <mutex>
 #include <unordered_set>
 #include <cctype>
+#include <atomic>
 
 // Rule definition
 struct Rule {
@@ -26,12 +27,9 @@ std::string clean_input(const std::string& s) {
   std::string result;
   result.reserve(s.size());
   for (unsigned char c : s) {
-    if (c >= 32 && c <= 126) {
-      result += c;
-    } else if (c == '\t') {
-      result += ' ';
-    }
-    // skip nulls, control chars, extended bytes (e.g. UTF8 fragments)
+    // Remove nulls and control codes only
+    if (c == '\0' || c < 0x20) continue;
+    result += c;
   }
   return result;
 }
@@ -77,7 +75,6 @@ std::vector<std::string> apply_all_rules(const std::string& word, const std::vec
       next.insert(next.end(), variants.begin(), variants.end());
     }
 
-    // Use unordered_set for faster deduplication
     std::unordered_set<std::string> unique(next.begin(), next.end());
     current.assign(unique.begin(), unique.end());
   }
@@ -85,16 +82,17 @@ std::vector<std::string> apply_all_rules(const std::string& word, const std::vec
   return current;
 }
 
-// Worker thread function
+// Worker thread function using atomic index
 void worker(const std::vector<std::string>& lines,
             const std::vector<Rule>& rules,
-            size_t start, size_t end,
+            std::atomic<size_t>& index,
             std::unordered_set<std::string>& global_seen,
             std::mutex& seen_mutex) {
   std::unordered_set<std::string> local_seen;
   local_seen.reserve(1024);
 
-  for (size_t i = start; i < end; ++i) {
+  size_t i;
+  while ((i = index.fetch_add(1)) < lines.size()) {
     auto results = apply_all_rules(lines[i], rules);
     for (const auto& res : results) {
       local_seen.insert(res);
@@ -133,7 +131,7 @@ int main(int argc, char* argv[]) {
 
   // Read and clean lines from stdin
   std::vector<std::string> lines;
-  lines.reserve(100000); // optional tuning for big wordlists
+  lines.reserve(100000);
 
   std::string line;
   while (std::getline(std::cin, line)) {
@@ -146,27 +144,17 @@ int main(int argc, char* argv[]) {
 
   if (lines.empty()) return 0;
 
-  const size_t n_threads = std::min<size_t>(std::thread::hardware_concurrency(), lines.size());
-  if (n_threads <= 1) {
-    std::unordered_set<std::string> global_seen;
-    std::mutex seen_mutex;
-    worker(lines, rules, 0, lines.size(), global_seen, seen_mutex);
-    return 0;
-  }
-
+  const size_t n_threads = std::max<size_t>(1, std::thread::hardware_concurrency());
+  std::atomic<size_t> index{0};
   std::unordered_set<std::string> global_seen;
   std::mutex seen_mutex;
 
   std::vector<std::thread> threads;
-  size_t chunk = (lines.size() + n_threads - 1) / n_threads;
+  threads.reserve(n_threads);
 
-  for (size_t i = 0; i < n_threads; ++i) {
-    size_t start = i * chunk;
-    size_t end = std::min(start + chunk, lines.size());
-    if (start < end) {
-      threads.emplace_back(worker, std::cref(lines), std::cref(rules),
-                           start, end, std::ref(global_seen), std::ref(seen_mutex));
-    }
+  for (size_t t = 0; t < n_threads; ++t) {
+    threads.emplace_back(worker, std::cref(lines), std::cref(rules),
+                         std::ref(index), std::ref(global_seen), std::ref(seen_mutex));
   }
 
   for (auto& t : threads) t.join();
