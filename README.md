@@ -51,7 +51,7 @@ You should compile aswap.cpp your self.
 gh repo clone etragardh/aswap
 cd aswap
 rm aswap
-g++ -std=c++17 -O3 -march=native -o aswap aswap.cpp -pthread
+g++ -std=c++17 -O3 -flto -march=native -DNDEBUG -o aswap_cpp aswap.cpp -pthread
 chmod +x aswap
 sudo ln -s ${PWD}/aswap /usr/local/bin
 ```
