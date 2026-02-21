@@ -131,4 +131,5 @@ l0v3 <- combination of the 2 previuous swaps
 <br />
 I asked Claude to optimize my code.<br />
 Claude says it is up to 2-3x faster than mine =)<br />
-Claudes version is in `aswap2.cpp`
+Claudes version is in ´aswap2.cpp´
+Compile: ´g++ -O3 -march=native -flto -pthread -o aswap2 aswap2.cpp´
