@@ -25,6 +25,7 @@ outputs:
 ```
 tester
 t3ster
+test3r
 t3st3r
 ```
 
