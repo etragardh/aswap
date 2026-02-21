@@ -128,3 +128,7 @@ l0v3 <- combination of the 2 previuous swaps
 
 >[!caution]
 > Note that `l0v3` is not present in hashcat or john. That would need _a lot_ more rules and add _a lot_ more complexity to the cracking process.
+<br />
+I asked Claude to optimize my code.<br />
+Claude says it is up to 2-3x faster than mine =)<br />
+Claudes version is in `aswap2.cpp`
