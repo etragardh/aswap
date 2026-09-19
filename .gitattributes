@@ -1,0 +1,6 @@
+# Normalize line endings to LF on checkin, across all platforms
+* text=auto eol=lf
+
+# Language-aware diffs
+*.cpp diff=cpp
+*.py  diff=python
