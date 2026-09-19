@@ -1,0 +1,7 @@
+# compiled binary
+aswap
+*.o
+build/
+
+# test artifacts
+test.rule

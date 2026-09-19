@@ -7,13 +7,22 @@ if len(sys.argv) < 2:
     print("=== Advanced swapper")
     print("=== by @etragardh")
     print("= Usage: ~# aswap lfr")
-    print("= Usage: l = levels deep")
+    print("= Usage: l = levels deep (1-9)")
     print("= Usage: f = find this")
     print("= Usage: r = replace with this")
     print("= Usage: Repeat as many times you like")
     print("= Example: ~# echo 'love' | aswap 2i! 1o0 3a@")
     print("===============================")
     exit()
+
+# validate every rule before reading stdin
+for argv in sys.argv[1:]:
+    if len(argv) != 3 or not argv[0].isdigit():
+        print(f"Invalid rule: {argv} (expected <levels><find><replace>, e.g. 2o0)", file=sys.stderr)
+        exit(1)
+    if argv[0] == "0":
+        print(f"Invalid rule: {argv} (levels must be 1-9)", file=sys.stderr)
+        exit(1)
 
 def swap(word, index, char):
     return word[:index] + char + word[index+1:]
